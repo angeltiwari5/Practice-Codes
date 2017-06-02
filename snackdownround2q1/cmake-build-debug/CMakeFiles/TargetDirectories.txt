@@ -1,0 +1,3 @@
+/Users/Angpy/CLionProjects/snackdownround2q1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/Angpy/CLionProjects/snackdownround2q1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/Angpy/CLionProjects/snackdownround2q1/cmake-build-debug/CMakeFiles/snackdownround2q1.dir
