@@ -1,112 +1,130 @@
 #include<iostream>
 #include<fstream>
 #include<sstream>
-#include<vector>
 #include<string>
-#include<map>
+#include<vector>
+#include <map>
 using namespace std;
-// int main(){
-// 	ifstream inFile;
-// 	inFile.open("sample.txt");
-// 	if(!inFile)
-// 	{
-// 	cout<<"unable to open"<<endl;
-// 	exit(1);
-// 	}
-// 	//cout << inFile;
-// 	int sum = 0;
-// 	int x;
-// 	// while(inFile>>x){
-// 	// sum+= x;
-// 	// }
-// 	string str;
-// 	while(getline(inFile,str,'\n')){
-// 		// stringstream s(str);
-// 		// int x =0;
-// 		// str>>x;
-// 		//sum+=x;
-// 		 //stoistr;
-// 		x= stoi(str);
-// 		cout<<str<<endl;
-// 		sum+= x;
-// 	}
-// 	inFile.close();
-// 	// cout<<sum;
-// 	return 0;
-// }
-string trim(string const& str)
-{
-    string word;
-    stringstream stream(str);
-    stream >> word;
-    cout<< word<<endl;
-    return word;
+//Out result
+//template<typename Out>
+void partition(const string &s, char delim, vector<string> &vec ) {
+    std::stringstream ss(s);
+    std::string item;
+    //vector<string> vec;
+    while (std::getline(ss, item, delim)) {
+        //*(result++) = item;
+        vec.push_back(item);
+    }
+    return ;
+
+    //return vec;
 }
+
+// std::vector<std::string> split(const std::string &s, char delim) {
+//     std::vector<std::string> elems;
+//     split(s, delim, std::back_inserter(elems));
+//     return elems;
+// }
+
+string removeCharsFromString( string &str, char charsToRemove ) {
+      str.erase( remove(str.begin(), str.end(), charsToRemove), str.end() );
+
+   return str;
+}
+
 int main(){
 	ifstream inFile;
 	inFile.open("sample.txt");
 	if(!inFile)
 	{
-		cout<< "unable to open";
-		exit(1);
+	cout<<"unable to open"<<endl;
+	exit(1);
 	}
-	string str;
-	vector<string> vec;
-	vector<string>innerVec;
-	while( getline(inFile,str,'\n')){
-		vec.push_back(str);
-	}
-
-	inFile.close();
-	// for( int i =0;i<vec.size();i++){
-	// 	stringstream ss(vec[i]);
-	// 	string temp;
-	// 	while(getline(ss,temp,':'))
-	// 		innerVec.push_back(temp);
-	// 	//cout<<vec[i]<<endl;
+	//cout << inFile;
+	int sum = 0;
+	int x;
+	// while(inFile>>x){
+	// sum+= x;
 	// }
-	// string t = "   the";
-	// size_t index = t.find_first_not_of(" ");
-	//cout<<index<<endl;
-	map<string,int> mp;
-	for( int i =0;i<vec.size();i++){
-		if(vec[i][0]=='{')
-			continue;
-		cout<<vec[i]<<endl;
-		size_t index = vec[i].find_first_not_of(" ");
-		cout<<index<<vec[i][index]<<endl;
-		
-			cout<<"here1";
-			for( int j = index;j<vec[i].size();j++){
-				if(vec[i][j]=='"'){
-					cout<<"here";
-					string temp="";
-					j++;
-					while(vec[i][j]!='"'){
-						temp += innerVec[i][j];
-						j++;
-					}
-					cout<<temp<<endl;
-					mp[temp]++;
-				}
-			
+	map <string, int> m;
+	map <string, int> :: iterator it;
+	string str;
+	while(getline(inFile,str,'\n')){
+		// stringstream s(str);
+		// int x =0;
+		// str>>x;
+		//sum+=x;
+		 //stoistr;
+		//x= stoi(str);
+		vector< string> x ;
+		partition(str, ':',x);
+		// for( int i =0;i<x.size();i++){
+  //   	cout<< x[i]<<endl;
+  //   }
+		if (x.size() == 2){
+			vector< string> y;
+			 partition(removeCharsFromString( x[1], '"' ), ' ',y);
+			for(int i = 0; i< y.size(); i++){
+				string mapi = removeCharsFromString( y[i], ' ' );
+				mapi = removeCharsFromString( mapi, ',' );
+				if (!m[mapi])
+					m[mapi] = 1;
+				else
+					m[mapi]++;
+
+			}
+
+		}
+		//sum+= x;
+	}
+	inFile.close();
+
+	for (it=m.begin(); it!=m.end(); ++it)
+    		std::cout << it->first << " => " << it->second << '\n';
+	// cout<<sum;
+	return 0;
+	/*
+	ifstream ifs("sample.txt");
+    string s( (std::istreambuf_iterator<char>(ifs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+
+    int t = 8;
+    while(t--){
+
+
+		unsigned first = s.find('{');
+		unsigned last = s.find('}');
+		string x1;
+
+		while(first < last){
+		   x1 = s.substr (first+1,last-first);
+		  unsigned new_first = x1.find('{');
+		  if(new_first < first)
+		  	first = new_first;
+		  else
+		  	break;
 		}
 
-		//string s = trim(vec[i]);
-	//	cout << innerVec[i]<<endl;
+		//vector<string> x( (istream_iterator<string>(strNew) ),
+		//                  (istream_iterator<string>() ));
+		//cout << s ;
+
+		vector< string> x = split(x1, ':');
+
+		cout << endl << " ------------------------------------------ " << endl; 
+
+		for (int i = 0; i< x.size(); i++){
+			cout << x[i] << endl;
+		}
+
+		s = s.erase(first+1, last-first);
+
+		cout << endl << " =================================== " << endl; 
+
+		cout << s;
+
 	}
-	int freq = 0;
-		for( map<string,int>:: iterator it = mp.begin();it!=mp.end();it++){
-			freq = max( freq, it->second);
-		}
-		vector<string> result;
-		for(map<string,int>:: iterator it = mp.begin();it!=mp.end();it++ )
-		{
-			if(it->second == freq)
-				result.push_back(it->first);
-		}
-		for( int i =0;i<result.size();i++){
-			cout<<result[i]<<endl;
-		}
-	return 0;
+	*/
+
+  return 0;
 }
